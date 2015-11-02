@@ -5,17 +5,13 @@
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles.css')}}">
   </head>
 <body>
-<a href="/index">Home Page</a>
+<a href="/home"><h1>Home</h1></a>
 
-{% if session['usernname'] %}
-<h1>Home Page</h1>
-<h2>Welcome, {{session['username']}}</h2>
-<button class="logout">
-	<a style="color: inherit;text-decoration: inherit" href="/logout">
-		Logout
-	</a>
-</button>
+{% if 'username' in session %}
+<div class="welcome-msg">Welcome, {{session['username']}}!</div>
+<button class="logout">	<a style="color: inherit;text-decoration: inherit" href="/logout">Logout</a></button>
 {% endif %}
+
 {% block body %}
 {% endblock %}
 </body>

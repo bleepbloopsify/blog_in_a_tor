@@ -7,7 +7,7 @@ from pymongo import MongoClient
 import sqlite3
 # a 32-byte key that should be used to secure the Flask session
 secret_key = urandom(32);
-
+info = []
 # checks whether the database contains a user with the given information
 def check_login_info(username, password):
 	#Creates Connection to MongoClient and Connects to the database
@@ -55,7 +55,6 @@ def register_new_user(username, password, confirm_password, email):
 		r"|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b", email)):
 		return 'Email is invalid.'
 	# Check if the username or email is taken.
-	print(c.user_info.find_one({'username':username}))
 	if c.user_info.find_one({'username':username}) != None :
 		return 'Username already taken'
 	if c.user_info.find_one({'email':email}) != None:
@@ -167,13 +166,12 @@ def new_comment(username, post_id, comment):
 		'Incorrect username.'
 	# Enter the new information and return the new comment's id.
 	num_rows = c.comments.count()
-	q=
-		{'comment_id':num_rows + 1,
-			'post_id':post_id,
-			'user_id':user_id,
-			'time':strftime("%a, %d %b %Y %H:%M:%S", gmtime()),
-			'comment':comment
-			}
+	q={'comment_id':num_rows + 1,
+                'post_id':post_id,
+		'user_id':user_id,
+		'time':strftime("%a, %d %b %Y %H:%M:%S", gmtime()),
+		'comment':comment
+		}
 	c.comments.insert(q)
 	return num_rows + 1
 
